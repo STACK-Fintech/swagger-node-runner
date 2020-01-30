@@ -23,7 +23,7 @@ var fs = require("fs");
 var path = require("path");
 var initSwaggerTools = require("swagger-tools").initializeMiddleware;
 var debug = require("debug")("pipe");
-var bagpipes = require("bagpipes");
+var bagpipes = require("@stack-fintech/bagpipes");
 
 var SWAGGER_SELECTED_PIPE = "x-swagger-pipe";
 var SWAGGER_ROUTER_CONTROLLER = "x-swagger-router-controller";
@@ -114,7 +114,10 @@ function Runner(appJsConfig, cb) {
 
     // no explicit pipe, but there's a controller
     if (!pipeName) {
-      if ((operation && operation[SWAGGER_ROUTER_CONTROLLER]) || path[SWAGGER_ROUTER_CONTROLLER]) {
+      if (
+        (operation && operation[SWAGGER_ROUTER_CONTROLLER]) ||
+        path[SWAGGER_ROUTER_CONTROLLER]
+      ) {
         pipeName = config.swaggerControllerPipe;
       }
     }
@@ -144,7 +147,10 @@ function Runner(appJsConfig, cb) {
 
   // don't override if env var already set
   if (appJsConfig.configDir && !process.env.NODE_CONFIG_DIR) {
-    process.env.NODE_CONFIG_DIR = path.resolve(appJsConfig.appRoot, appJsConfig.configDir);
+    process.env.NODE_CONFIG_DIR = path.resolve(
+      appJsConfig.appRoot,
+      appJsConfig.configDir
+    );
   }
   var config = require("config");
 
@@ -169,7 +175,8 @@ function Runner(appJsConfig, cb) {
     this.swagger = appJsConfig.swagger;
   } else {
     try {
-      var swaggerFile = appJsConfig.swaggerFile || this.resolveAppPath(appPaths.swaggerFile);
+      var swaggerFile =
+        appJsConfig.swaggerFile || this.resolveAppPath(appPaths.swaggerFile);
       var swaggerString = fs.readFileSync(swaggerFile, "utf8");
       this.swagger = yaml.safeLoad(swaggerString);
     } catch (err) {
@@ -189,9 +196,11 @@ function Runner(appJsConfig, cb) {
 function createPipes(self) {
   var config = self.config.swagger;
 
-  var fittingsDirs = (config.fittingsDirs || DEFAULT_FITTINGS_DIRS).map(function(dir) {
-    return path.resolve(config.appRoot, dir);
-  });
+  var fittingsDirs = (config.fittingsDirs || DEFAULT_FITTINGS_DIRS).map(
+    function(dir) {
+      return path.resolve(config.appRoot, dir);
+    }
+  );
   var swaggerNodeFittingsDir = path.resolve(__dirname, "./fittings");
   fittingsDirs.push(swaggerNodeFittingsDir);
 
@@ -230,7 +239,9 @@ function createPipes(self) {
     //   raw: /swagger
 
     if (config.mapErrorsToJson) {
-      config.bagpipes.swagger_controllers.unshift({ onError: "json_error_handler" });
+      config.bagpipes.swagger_controllers.unshift({
+        onError: "json_error_handler"
+      });
     }
   }
 
