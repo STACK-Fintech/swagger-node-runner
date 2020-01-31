@@ -1,5 +1,7 @@
-2020-01-30, Version 0.5.16
+2020-01-31, Version 0.5.19
 ==========================
+
+ * revert: go back to using original bagpipes (Kevin Delisle)
 
  * chore: use @stack-fintech/bagpipes (Kevin Delisle)
 

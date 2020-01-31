@@ -1,6 +1,6 @@
 {
   "name": "@stack-fintech/swagger-node-runner",
-  "version": "0.5.16",
+  "version": "0.5.19",
   "description": "Swagger loader and middleware utilities",
   "keywords": [
     "swagger",
